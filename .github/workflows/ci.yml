@@ -49,7 +49,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     needs: [lint, test]
-    if: github.ref != Null && startWith(github.ref, "v")
+    if: github.ref != null && startWith(github.ref, "v")
     steps:
       - uses: action/checkout@v2
         if: github.event_name == 'push'
