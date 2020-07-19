@@ -59,11 +59,11 @@ jobs:
       - name: Setup Release Note Generator
         run: |
           yarn global add conventional-changelog-cli
-          ~/.yarn/bin/conventional-changelog -p angular -o changelog.md
+          ~/.yarn/bin/conventional-changelog -p angular -o ~/changelog.md
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
           version: latest
-          args: release --rm-dist --release-notes=changelog.md
+          args: release --rm-dist --release-notes=~/changelog.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
