@@ -20,6 +20,8 @@ builds:
       - 386
       - arm
       - arm64
+    ldflags:
+      - -s -w -X assets.currentVersion={{.Version}} -X assets.currentCommitHash={{.ShortCommit}}
 archives:
   -
     replacements:
@@ -30,14 +32,11 @@ archives:
       amd64: x86_64
     builds:
       - default
+    format_overrides:
+      - goos: windows
+        format: zip
 
 checksum:
   name_template: 'checksums.txt'
 snapshot:
   name_template: "{{ .Tag }}-next"
-changelog:
-  sort: asc
-  filters:
-    exclude:
-    - '^docs:'
-    - '^test:'

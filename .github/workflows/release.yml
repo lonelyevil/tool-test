@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branch:
+      - master
+    tags:
+      - v*
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.14
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Lint
+        run: |
+          export PATH=$PATH:$(go env GOPATH)/bin
+          go get -u github.com/mgechev/revive
+          make lint
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.14
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Unit tests
+        run: make test-coverage
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    if: github.ref != null && startsWith(github.ref, 'v')
+    steps:
+      - uses: action/checkout@v2
+        if: github.event_name == 'push'
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.14
+
+      - name: Setup Node
+        uses: actions/checkout@v2
+
+      - name: Setup Release Note Generator
+        run: |
+          npm i -g conventional-changelog-cli
+          conventional-changelog -p angular -o changelog.md
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          version: latest
+          args: release --rm-dist --release-notes=changelog.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
