@@ -58,7 +58,7 @@ jobs:
 
       - name: Setup Release Note Generator
         run: |
-          npm i -g conventional-changelog-cli
+          yarn i -g conventional-changelog-cli
           conventional-changelog -p angular -o changelog.md
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
