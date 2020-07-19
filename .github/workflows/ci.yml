@@ -13,7 +13,7 @@ jobs:
       - name: Current Ref
         run: |
           echo ${{ github.ref }}
-          echo ${{ github }}
+          echo ${{ toJson(github) }}
   lint:
     name: Lint
     runs-on: ubuntu-latest
