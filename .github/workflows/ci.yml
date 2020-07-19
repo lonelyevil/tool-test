@@ -63,4 +63,6 @@ jobs:
       - name: Setup Node
         uses: actions/checkout@v2
 
-      - name: Setup
+      - name: Setup Release Note Generator
+        run: |
+          npm i -g conventional-changelog-cli
