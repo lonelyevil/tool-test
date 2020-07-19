@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/lonelyevil/tool-test/assets"
+)
 
 func main() {
-	fmt.Println("Removed")
+	fmt.Println(assets.GenName())
 }
