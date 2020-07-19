@@ -7,5 +7,5 @@ import (
 
 func main() {
 	fmt.Println(assets.GenName())
-	fmt.Println()
+	fmt.Println("look more")
 }
